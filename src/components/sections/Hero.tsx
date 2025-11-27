@@ -75,7 +75,7 @@ export const Hero = () => {
 
         <div className="flex flex-1 lg:w-1/2 lg:h-auto relative lg:max-w-non lg:mx-0 mx-auto max-w-3xl">
           <img
-            src="../../../public/assets/Ai.jpg"
+            src="https://img.freepik.com/free-vector/realistic-technology-background_52683-73672.jpg?semt=ais_hybrid&w=740&q=80"
             alt="Hero image"
             width={2350}
             height={2359}
