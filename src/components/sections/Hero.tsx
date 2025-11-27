@@ -63,7 +63,7 @@ export const Hero = () => {
                 <input
                   type="email"
                   placeholder="johndoe@gmail.com"
-                  className="w-full py-3 outline-none bg-transparent"
+                  className="w-full py-3 outline-none bg-transparent text-heading-1 placeholder:text-heading-3"
                 />
                 <Button className="min-w-max text-white">
                   <span className="relative z-[5]">Get Started</span>

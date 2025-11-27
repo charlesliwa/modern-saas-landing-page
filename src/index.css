@@ -36,14 +36,45 @@
   .text-heading-3 {
     color: rgb(var(--heading-3));
   }
+  .border-box-border {
+    border-color: rgb(var(--box-border));
+  }
+  .shadow-box-shadow {
+    box-shadow: 0 10px 15px -3px rgb(var(--box-sd)), 0 4px 6px -4px rgb(var(--box-sd));
+  }
 }
 
 html {
   scroll-behavior: smooth;
+  background-color: rgb(var(--color-bg));
+  transition: background-color 0.3s ease;
 }
 
 body {
   font-family: "Raleway", sans-serif;
+  background-color: rgb(var(--color-bg));
+  color: rgb(var(--heading-1));
+  transition: background-color 0.3s ease, color 0.3s ease;
+  min-height: 100vh;
+}
+
+/* Ensure all inputs and form elements respect dark mode */
+input,
+textarea,
+select {
+  color: rgb(var(--heading-1));
+  background-color: transparent;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: rgb(var(--heading-3));
+  opacity: 1;
+}
+
+/* Ensure all sections have proper background */
+section {
+  background-color: transparent;
 }
 
 

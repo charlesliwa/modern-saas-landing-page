@@ -23,10 +23,10 @@ export const Layout = ({ children }: LayoutProps) => {
   }, [theme]);
 
   return (
-    <>
+    <div className="bg-body min-h-screen">
       <Navbar />
-      <main>{children}</main>
+      <main className="bg-body">{children}</main>
       <Footer />
-    </>
+    </div>
   );
 };
