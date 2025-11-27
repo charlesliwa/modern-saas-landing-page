@@ -1,4 +1,4 @@
-# EdgeAI - Modern SaaS Landing Page
+# GoodAI - Modern SaaS Landing Page
 
 A beautiful, modern, and fully responsive landing page for an AI-powered SaaS platform. Built with React, TypeScript, and Tailwind CSS, featuring a sleek design with dark/light mode support.
 
