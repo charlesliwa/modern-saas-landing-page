@@ -1,3 +1,4 @@
+import { useState, useEffect, useRef } from "react";
 import { Container } from "../shared/Container";
 import logo from "/assets/logo.png";
 import { NavItem } from "../shared/NavItem";
@@ -7,6 +8,37 @@ import { navItems } from "../../utils/navItems";
 
 export const Navbar = () => {
   const { toggleTheme, theme } = useThemeStore();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const menuRef = useRef<HTMLDivElement>(null);
+
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
+
+  const closeMenu = () => {
+    setIsMenuOpen(false);
+  };
+
+  // Close menu when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+        // Check if click is not on the burger button
+        const target = event.target as HTMLElement;
+        if (!target.closest('button[aria-label="Toggle menu"]')) {
+          closeMenu();
+        }
+      }
+    };
+
+    if (isMenuOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isMenuOpen]);
 
   return (
     <header className="absolute inset-x-0 top-0 z-50 py-6">
@@ -23,9 +55,12 @@ export const Navbar = () => {
           </div>
 
           <div
-            className="flex flex-col lg:flex-row w-full lg:justify-between lg:items-center 
+            ref={menuRef}
+            className={`flex flex-col lg:flex-row w-full lg:justify-between lg:items-center 
                       absolute top-full left-0 lg:static lg:top-0 bg-body lg:bg-transparent 
-                      border-x border-x-box-border lg:border-x-0 lg:h-auto h-0 overflow-hidden"
+                      border-x border-x-box-border lg:border-x-0 transition-all duration-300 ease-in-out
+                      shadow-lg lg:shadow-none
+                      ${isMenuOpen ? 'h-auto max-h-screen opacity-100 visible' : 'h-0 max-h-0 opacity-0 invisible lg:opacity-100 lg:visible lg:h-auto lg:max-h-screen overflow-hidden lg:overflow-visible'}`}
           >
             <ul
               className="border-t border-box-border lg:border-t-0 px-6 lg:px-0 
@@ -33,7 +68,7 @@ export const Navbar = () => {
                            text-lg text-heading-2 w-full lg:justify-center lg:items-center"
             >
               {navItems.map((item, key) => (
-                <NavItem href={item.href} text={item.text} key={key} />
+                <NavItem href={item.href} text={item.text} key={key} onClick={closeMenu} />
               ))}
             </ul>
             <div
@@ -41,14 +76,55 @@ export const Navbar = () => {
                             lg:pb-0 border-b border-box-border lg:border-0
                             px-6 lg:px-0"
             >
-              <BtnLink text="Get Started" href="#cta" className="" />
+              <BtnLink text="Get Started" href="#cta" className="" onClick={closeMenu} />
             </div>
           </div>
 
           <div className="min-w-max flex items-center gap-x-3">
+            {/* Burger Menu Button - Mobile Only */}
+            <button
+              onClick={toggleMenu}
+              className="lg:hidden outline-hidden flex relative text-heading-2 rounded-full p-2 border border-box-border cursor-pointer"
+              aria-label="Toggle menu"
+            >
+              {isMenuOpen ? (
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth="1.5"
+                  stroke="currentColor"
+                  className="w-6 h-6"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M6 18L18 6M6 6l12 12"
+                  />
+                </svg>
+              ) : (
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth="1.5"
+                  stroke="currentColor"
+                  className="w-6 h-6"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
+                  />
+                </svg>
+              )}
+            </button>
+            
+            {/* Theme Toggle Button */}
             <button
               onClick={toggleTheme}
               className="outline-hidden flex relative text-heading-2 rounded-full p-2 lg:p-3 border border-box-border cursor-pointer"
+              aria-label="Toggle theme"
             >
               {theme === "dark" ? (
                 <svg
